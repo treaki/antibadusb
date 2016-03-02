@@ -1,0 +1,1 @@
+antibadusb is a package for debian based systems to prevent external (bad) hid's (human device interfaces (keyboards, pointing devices) to be attached after boot.

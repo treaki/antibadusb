@@ -1,0 +1,48 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:          antibadusb
+# Required-Start:
+# Required-Stop:
+# Should-Start:
+# Should-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Enables /disables rules to prevent additional USB-HIDs
+# Description:       antibadusb is a little toolset for debian based systems to prevent manipulation of the system by additional usb HIDs (keyboards for example)
+### END INIT INFO
+
+DESC="antibadusb"
+NAME="antibadusb"
+
+set -e
+
+case "$1" in
+	start)
+		echo -n "Starting $DESC: "
+		sed -i 's/#//' /etc/udev/rules.d/10-usbblock.rules
+		udevadm control --reload-rules
+		echo "new usb HIDs will not be possible now"
+		;;
+
+	stop)
+		echo -n "Stopping $DESC: "
+		sed -i 's/^/#/' /etc/udev/rules.d/10-usbblock.rules
+		udevadm control --reload-rules
+		echo "new usb HIDs will now be possible again"
+		;;
+
+	restart)
+
+		$0 stop
+		sleep 1
+		$0 start
+		;;
+	*)
+		N=/etc/init.d/$NAME
+		echo "Usage: $N {start|stop|restart}" >&2
+		exit 1
+		;;
+esac
+
+exit 0

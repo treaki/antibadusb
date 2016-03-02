@@ -1,0 +1,1 @@
+#ACTION=="add", ATTR{bInterfaceClass}=="03" RUN+="/bin/sh -c 'echo 0 >/sys$DEVPATH/../authorized'"
